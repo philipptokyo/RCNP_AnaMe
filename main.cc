@@ -82,49 +82,64 @@ Int_t main(Int_t argc, char **argv){
   TRandom3* randomizer = new TRandom3();
   randomizer->SetSeed(0); 
   
-  TChain *tree = new TChain("Exp");
+  TFile *infile = new TFile(inputFile, "read");
+  TFile *outfile = new TFile(outputFile, "recreate");
   
-  tree->Add(inputFile);
+  TTree *tree = (TTree*)infile->Get("Exp");
   
-  tree->SetBranchAddress("RegionIDs", &RegionIDs);
-  tree->SetBranchAddress("GR_V830", &GR_V830);
-  tree->SetBranchAddress("IPR", &IPR);
-  tree->SetBranchAddress("Scaler", &Scaler);
-  tree->SetBranchAddress("Time", &Time);
-  tree->SetBranchAddress("ChkSum", &ChkSum);
-  tree->SetBranchAddress("FERA_Type", &FERA_Type);
-  tree->SetBranchAddress("FERA_Ch", &FERA_Ch);
-  tree->SetBranchAddress("FERA_Mid", &FERA_Mid);
-  tree->SetBranchAddress("EVENT", &EVENT);
+  TList *hlist = new TList();
+  
+//   tree->Add(inputFile);
+  
+//   tree->SetBranchAddress("RegionIDs", &RegionIDs);
+//   tree->SetBranchAddress("GR_V830", &GR_V830);
+//   tree->SetBranchAddress("IPR", &IPR);
+//   tree->SetBranchAddress("Scaler", &Scaler);
+//   tree->SetBranchAddress("Time", &Time);
+//   tree->SetBranchAddress("ChkSum", &ChkSum);
+//   tree->SetBranchAddress("FERA_Type", &FERA_Type);
+//   tree->SetBranchAddress("FERA_Ch", &FERA_Ch);
+//   tree->SetBranchAddress("FERA_Mid", &FERA_Mid);
+//   tree->SetBranchAddress("EVENT", &EVENT);
   tree->SetBranchAddress("GR", &GR);
   tree->SetBranchAddress("GF", &GF);
   tree->SetBranchAddress("LAS", &LAS);
   
-  tree->SetBranchAddress("GR_WIRE_X1", &GR_WIRE_X1);
-  tree->SetBranchAddress("GR_WIRE_U1", &GR_WIRE_U1);
-  tree->SetBranchAddress("GR_WIRE_X2", &GR_WIRE_X2);
-  tree->SetBranchAddress("GR_WIRE_U2", &GR_WIRE_U2);
-  
-  tree->SetBranchAddress("GR_TDC_X1", &GR_TDC_X1);
-  tree->SetBranchAddress("GR_TDC_U1", &GR_TDC_U1);
-  tree->SetBranchAddress("GR_TDC_X2", &GR_TDC_X2);
-  tree->SetBranchAddress("GR_TDC_U2", &GR_TDC_U2);
-  
-  tree->SetBranchAddress("LAS_WIRE_X1", &LAS_WIRE_X1);
-  tree->SetBranchAddress("LAS_WIRE_U1", &LAS_WIRE_U1);
-  tree->SetBranchAddress("LAS_WIRE_V1", &LAS_WIRE_V1);
-  tree->SetBranchAddress("LAS_WIRE_X2", &LAS_WIRE_X2);
-  tree->SetBranchAddress("LAS_WIRE_U2", &LAS_WIRE_U2);
-  tree->SetBranchAddress("LAS_WIRE_V2", &LAS_WIRE_V2);
-  
-  tree->SetBranchAddress("LAS_TDC_X1", &LAS_TDC_X1);
-  tree->SetBranchAddress("LAS_TDC_U1", &LAS_TDC_U1);
-  tree->SetBranchAddress("LAS_TDC_V1", &LAS_TDC_V1);
-  tree->SetBranchAddress("LAS_TDC_X2", &LAS_TDC_X2);
-  tree->SetBranchAddress("LAS_TDC_U2", &LAS_TDC_U2);
-  tree->SetBranchAddress("LAS_TDC_V2", &LAS_TDC_V2);
+//   tree->SetBranchAddress("GR_WIRE_X1", &GR_WIRE_X1);
+//   tree->SetBranchAddress("GR_WIRE_U1", &GR_WIRE_U1);
+//   tree->SetBranchAddress("GR_WIRE_X2", &GR_WIRE_X2);
+//   tree->SetBranchAddress("GR_WIRE_U2", &GR_WIRE_U2);
+//   
+//   tree->SetBranchAddress("GR_TDC_X1", &GR_TDC_X1);
+//   tree->SetBranchAddress("GR_TDC_U1", &GR_TDC_U1);
+//   tree->SetBranchAddress("GR_TDC_X2", &GR_TDC_X2);
+//   tree->SetBranchAddress("GR_TDC_U2", &GR_TDC_U2);
+//   
+//   tree->SetBranchAddress("LAS_WIRE_X1", &LAS_WIRE_X1);
+//   tree->SetBranchAddress("LAS_WIRE_U1", &LAS_WIRE_U1);
+//   tree->SetBranchAddress("LAS_WIRE_V1", &LAS_WIRE_V1);
+//   tree->SetBranchAddress("LAS_WIRE_X2", &LAS_WIRE_X2);
+//   tree->SetBranchAddress("LAS_WIRE_U2", &LAS_WIRE_U2);
+//   tree->SetBranchAddress("LAS_WIRE_V2", &LAS_WIRE_V2);
+//   
+//   tree->SetBranchAddress("LAS_TDC_X1", &LAS_TDC_X1);
+//   tree->SetBranchAddress("LAS_TDC_U1", &LAS_TDC_U1);
+//   tree->SetBranchAddress("LAS_TDC_V1", &LAS_TDC_V1);
+//   tree->SetBranchAddress("LAS_TDC_X2", &LAS_TDC_X2);
+//   tree->SetBranchAddress("LAS_TDC_U2", &LAS_TDC_U2);
+//   tree->SetBranchAddress("LAS_TDC_V2", &LAS_TDC_V2);
   
   tree->SetBranchAddress("V1190_QTC", &V1190_QTC);
+  
+  
+  TH1F* h1_test = new TH1F("h1_test","h1_test",3000,0,3000); hlist->Add(h1_test);
+  
+  
+  
+  
+  
+  
+  
 
   TStopwatch* watch = new TStopwatch();
   watch->Start();
@@ -138,20 +153,39 @@ Int_t main(Int_t argc, char **argv){
     events=maxevents;
   }
   
+  cout << "Starting event loop" << endl;
   for(Int_t ev=0; ev<events; ev++){
     
     tree->GetEntry(ev);
-    cout << "GR_TDC_X1[0] = " << GR_TDC_X1[0] << endl;
-  }
-  
+    
+    if(ev%1000==0){
+      cout << "Event " << ev << " of " << events << endl;
+    }
+    
+    cout << "GR.GR_MADC[0] = " << GR.GR_MADC[0] << endl;
+    h1_test->Fill(GR.GR_MADC[0]);
+    
+//     for(Int_t i=0; i<GR_WIRE_X1.size(); i++){
+//       cout << "h1_GR_WIRE_X1 = " << (Int_t)GR_WIRE_X1[i] << endl;
+//       h1_GR_WIRE_X1->Fill((Int_t)GR_WIRE_X1[i]);
+//     }
+    
+    
+  } // end of event loop
 
- 
-  cout << "Test successful" << endl;
+  cout << "Finished event loop. Saving data." << endl;
   
   
   watch->Stop();
   cout << "Took: real time " << watch->RealTime() << "sec., CPU time " << watch->CpuTime() << " sec." << endl;
   cout << endl;
+  
+  
+  outfile->cd();
+  
+  tree->Write();
+  hlist->Write();
+  
   
   delete theApp;  
 
